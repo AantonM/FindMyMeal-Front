@@ -120,7 +120,7 @@ function loadStore () {
             result.forEach(store => {
                 var option = document.createElement("option");
                 option.setAttribute('value', store.storeCode);
-                option.appendChild(document.createTextNode(store.storeCode));
+                option.appendChild(document.createTextNode(store.storeName));
                 document.getElementById('selectStore').appendChild(option);
             });
         },
@@ -153,10 +153,7 @@ function loadStore () {
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Add Recipes</a>
+            <a class="nav-link" href="about.html">About</a>
           </li>
         </ul>
       </div>

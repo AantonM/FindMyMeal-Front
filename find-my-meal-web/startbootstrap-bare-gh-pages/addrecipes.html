@@ -16,59 +16,30 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <script>
-    const UrlGetIngr = "http://10.80.19.142:8080/request/recipe/all"
-    $('.btn').click(function () {
-      const data = {}
-      $.ajax({
-        url: UrlGetIngr,
-        headers: {
-          "Content-type": "application/x-www-form-urlencoded",
-          "Access-Control-Allow-Origin": "http://10.80.19.142:8080"
-        },
-        type: "GET",
-        success: function (result) {
-        },
-        error: function (error) {
-          console.log('Error ' + error)
-          JSON.stringify(error)
-        }
-      })
-    })
-  </script>
-
-  <script>
-    function loadProducts () {
-      const data = {}
-      $.ajax({
-        url: "http://10.80.19.142:8080/request/recipe/all",
-        headers: {
-          "Content-type": "application/x-www-form-urlencoded"
-        },
-        type: "GET",
-        success: function (result) {
-          console.log(result);
-          result.forEach(recipe => {
-            var option = document.createElement("option");
-            option.setAttribute('value', recipe.id);
-            option.appendChild(document.createTextNode(recipe.name));
-            document.getElementById('exampleFormControlSelect1').appendChild(option);
-          });
-        },
-        error: function (error) {
-          console.log('Error ' + error)
-          JSON.stringify(error)
-        }
-      })
-    };
-    
-    function load() {
-      loadRecipes();
-    }
+    $(function(){
+        $('.btn').click(function () {
+        const data = {}
+        $.ajax({
+            url: UrlGetIngr,
+            headers: {
+            "Content-type": "application/x-www-form-urlencoded",
+            "Access-Control-Allow-Origin": "http://10.80.19.142:8080"
+            },
+            type: "GET",
+            success: function (result) {
+            },
+            error: function (error) {
+            console.log('Error ' + error)
+            JSON.stringify(error)
+            }
+        })
+        })
+    });
   </script>
 
 </head>
 
-<body onload="load()">
+<body>
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">

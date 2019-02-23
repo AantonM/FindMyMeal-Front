@@ -17,9 +17,9 @@
 
   <script>
     $(function(){
+      const UrlGetIngr = "http://10.80.19.142:8080/request/recipe/byId?id=1"// + $('option').val();
       $('#btnSearch').click(function () {
-      const UrlGetIngr = "http://10.80.19.142:8080/request/recipe/byId?id=" + $('#selectRecipe').children('option:selected').val();
-        console.log(UrlGetIngr);
+        console.log("here");
         $.ajax({
           url: UrlGetIngr,
           headers: {
@@ -30,12 +30,41 @@
             console.log(result);
             result.products.forEach(product => 
             {
-              var row = document.createElement("tr");
-              var col = document.createElement("td");
-              var txt = document.createTextNode(product.id);
+              var body = document.getElementById("tableBody");
+              if(body.childElementCount > 0)
+              {
+                body.removeChild(body.childNodes[0]);
+              }
 
-              col.appendChild(txt);
-              row.appendChild(col);
+
+              
+              var row = document.createElement("tr");
+              var colId = document.createElement("td");
+              var colSku = document.createElement("td");
+              var colAisle = document.createElement("td");
+              var colBay = document.createElement("td");
+              var colShelf = document.createElement("td");
+              var colXCoords = document.createElement("td");
+              var id = document.createTextNode(product.id);
+              var sku = document.createTextNode(product.sku);
+              var aisle = document.createTextNode(product.location.aisle);
+              var bay = document.createTextNode(product.location.bay);
+              var shelf = document.createTextNode(product.location.shelf);
+              var Coords = document.createTextNode(product.location.xCoord + ':' + product.location.yCoord);
+
+              colId.appendChild(id);
+              row.appendChild(colId);
+              colSku.appendChild(sku);
+              row.appendChild(colSku);
+              colAisle.appendChild(aisle);
+              row.appendChild(colAisle);
+              colBay.appendChild(bay);
+              row.appendChild(colBay);
+              colShelf.appendChild(shelf);
+              row.appendChild(colShelf);
+              colXCoords.appendChild(Coords);
+              row.appendChild(colXCoords);
+
               document.getElementById("tableBody").appendChild(row);
             });
           },

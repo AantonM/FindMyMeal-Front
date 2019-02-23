@@ -17,11 +17,12 @@
 
   <script>
     $(function(){
-      $('#btnSearch').click(function () {
-      const UrlGetIngr = "http://10.80.19.142:8080/request/recipe/byId?id=" + $('#selectRecipe').children('option:selected').val();
-        console.log(UrlGetIngr);
+      $('#selectRecipe').on('change', function () {
+      clearProductList();
+      const url = "http://10.80.19.142:8080/request/recipe/byId?id=" + $('#selectRecipe').children('option:selected').val();
+        console.log(url);
         $.ajax({
-          url: UrlGetIngr,
+          url: url,
           headers: {
             "Content-type": "application/x-www-form-urlencoded"
           },
@@ -44,27 +45,40 @@
             JSON.stringify(error)
           }
         })
+      });
+      
+      $('#selectStore').on('change', function () {
+        loadRecipes($('#selectStore').children('option:selected').val());
       })
     });
+    
+    function clearProductList() {
+      document.getElementById("tableBody").innerHTML = "";
+    }
 
-  </script>
-
-  <script>
-    function loadRecipes () {
+    function loadRecipes (storeCode) {
       const data = {}
+      clearProductList();
       $.ajax({
-        url: "http://10.80.19.142:8080/request/recipe/all?storeCode=2571",
+        url: "http://10.80.19.142:8080/request/recipe/all?storeCode=" + storeCode,
         headers: {
           "Content-type": "application/x-www-form-urlencoded"
         },
         type: "GET",
         success: function (result) {
           console.log(result);
+          var selectRecipe = document.getElementById('selectRecipe');
+          var defaultOption = document.createElement("option");
+          defaultOption.disabled = true;
+          defaultOption.selected = true;
+          defaultOption.innerHTML = " -- select an option -- ";
+          selectRecipe.innerHTML = "";
+          selectRecipe.appendChild(defaultOption);
           result.forEach(recipe => {
             var option = document.createElement("option");
             option.setAttribute('value', recipe.id);
             option.appendChild(document.createTextNode(recipe.name));
-            document.getElementById('selectRecipe').appendChild(option);
+            selectRecipe.appendChild(option);
           });
         },
         error: function (error) {
@@ -72,41 +86,38 @@
           JSON.stringify(error)
         }
       })
+      $('#selectedRecipe').trigger("change");
     };
 
-    function loadStore () {
-        const data = {}
-        $.ajax({
-            url: "http://10.80.19.142:8080/request/store/all",
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded"
-            },
-            type: "GET",
-            success: function (result) {
-                console.log(result);
-                result.forEach(store => {
-                    var option = document.createElement("option");
-                    option.setAttribute('value', store.storeCode);
-                    option.appendChild(document.createTextNode(store.storeCode));
-                    document.getElementById('selectStore').appendChild(option);
-                });
-            },
-            error: function (error) {
-                console.log('Error ' + error)
-                JSON.stringify(error)
-            }
-        })
-    };
-
-    function load() {
-      loadRecipes();
+function loadStore () {
+    const data = {}
+    $.ajax({
+        url: "http://10.80.19.142:8080/request/store/all",
+        headers: {
+            "Content-type": "application/x-www-form-urlencoded"
+        },
+        type: "GET",
+        success: function (result) {
+            console.log(result);
+            result.forEach(store => {
+                var option = document.createElement("option");
+                option.setAttribute('value', store.storeCode);
+                option.appendChild(document.createTextNode(store.storeCode));
+                document.getElementById('selectStore').appendChild(option);
+            });
+        },
+        error: function (error) {
+            console.log('Error ' + error)
+            JSON.stringify(error)
+        }
+    })
+};
       loadStore();
-    }
   </script>
 
 </head>
 
-<body onload="load()">
+<body >
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -145,12 +156,14 @@
         <div class="form-group">
           <label for="selectStore">Select Store</label>
           <select class="form-control" id="selectStore">
+              <option disabled selected value> -- select an option -- </option>
           </select>
         </div>
 
         <div class="form-group">
           <label for="selectRecipe">Select Recipe</label>
           <select class="form-control" id="selectRecipe">
+              <option disabled selected value> -- select an option -- </option>
           </select>
         </div>
 

@@ -16,17 +16,29 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
   <script>
-    const UrlGetIngr = "http://10.80.19.142:8080/request/recipe/all"
-    $('.btn').click(function () {
-      const data = {}
+
+
+    const UrlGetIngr = "http://10.80.19.142:8080/request/recipe/byId?id=" + $('#mealsOptions option:selected').val()
+    $('#btnSearch').click(function () {
+      console.log("here");
       $.ajax({
         url: UrlGetIngr,
         headers: {
-          "Content-type": "application/x-www-form-urlencoded",
-          "Access-Control-Allow-Origin": "http://10.80.19.142:8080"
+          "Content-type": "application/x-www-form-urlencoded"
         },
         type: "GET",
         success: function (result) {
+          console.log(result);
+          result.products.forEach(product => 
+          {
+            var row = document.createElement("tr");
+            var col = document.createElement("td");
+            var txt = document.createTextNode(product.id);
+
+            col.appendChild(txt);
+            row.appendChild(col);
+            document.getElementById("tableBody").appendChild(row);
+          });
         },
         error: function (error) {
           console.log('Error ' + error)
@@ -34,6 +46,8 @@
         }
       })
     })
+
+
   </script>
 
   <script>
@@ -113,7 +127,7 @@
           </select>
         </div>
 
-        <button class="btn btn-primary" type="submit">Search</button>
+        <button id="btnSearch" class="btn btn-primary" type="submit">Search</button>
 
         <table class="table">
           <thead>

@@ -31,12 +31,34 @@
             console.log(result);
             result.products.forEach(product => 
             {
+              var body = document.getElementById("tableBody");
               var row = document.createElement("tr");
-              var col = document.createElement("td");
-              var txt = document.createTextNode(product.id);
+              var colId = document.createElement("td");
+              var colSku = document.createElement("td");
+              var colAisle = document.createElement("td");
+              var colBay = document.createElement("td");
+              var colShelf = document.createElement("td");
+              var colXCoords = document.createElement("td");
+              var id = document.createTextNode(product.id);
+              var sku = document.createTextNode(product.sku);
+              var aisle = document.createTextNode(product.location.aisle);
+              var bay = document.createTextNode(product.location.bay);
+              var shelf = document.createTextNode(product.location.shelf);
+              var Coords = document.createTextNode(product.location.xCoord + ':' + product.location.yCoord);
 
-              col.appendChild(txt);
-              row.appendChild(col);
+              colId.appendChild(id);
+              row.appendChild(colId);
+              colSku.appendChild(sku);
+              row.appendChild(colSku);
+              colAisle.appendChild(aisle);
+              row.appendChild(colAisle);
+              colBay.appendChild(bay);
+              row.appendChild(colBay);
+              colShelf.appendChild(shelf);
+              row.appendChild(colShelf);
+              colXCoords.appendChild(Coords);
+              row.appendChild(colXCoords);
+
               document.getElementById("tableBody").appendChild(row);
             });
           },
@@ -169,13 +191,15 @@ function loadStore () {
 
         <button id="btnSearch" class="btn btn-primary" type="submit">Search</button>
 
-        <table class="table">
+        <table class="table" style="margin-top: 100px">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+              <th scope="col">Id</th>
+              <th scope="col">Sku</th>
+              <th scope="col">Aisle</th>
+              <th scope="col">Bay</th>
+              <th scope="col">Shelf</th>
+              <th scope="col">Coords</th>
             </tr>
           </thead>
           <tbody id="tableBody">

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Bare - Start Bootstrap Template</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Start Bootstrap</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <h1 class="mt-5">Find my meal</h1>
+        <p class="lead">Select a product and we will show you where are the ingridiants!</p>
+
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Example select</label>
+          <select class="form-control" id="exampleFormControlSelect1">
+            <option value="0"></option>
+            <option value="1">Burger</option>
+            <option value="2">Sandwih</option>
+            <option value="3">Pasta</option>
+            <option value="4">Meal</option>
+            <option value="4">Meal</option>
+            <option value="4">Meal</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Search</button>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script>
+    const UrlGetIngr = "http://10.80.19.142:8080/request/store/all"
+    $('.btn').click(function () {
+      const data = {}
+      $.ajax({
+        url: UrlGetIngr,
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded",
+          "Access-Control-Allow-Origin": "http://10.80.19.142:8080"
+        },
+        type: "GET",
+        success: function (result) {
+          document.getElementById("tableBody").appendChild("<td></td");
+          console.log(result)
+        },
+        error: function (error) {
+          console.log('Error ' + error)
+          JSON.stringify(error)
+        }
+      })
+    })
+  </script>
+
+  <script>
+    const UrlGetProducts = "http://10.80.19.142:8080/request/product/all"
+    $('.btn').click(function () {
+      const data = {}
+      $.ajax({
+        url: UrlGetProducts,
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded",
+          "Access-Control-Allow-Origin": "http://10.80.19.142:8080"
+        },
+        type: "GET",
+        success: function (result) {
+          document.getElementById('exampleFormControlSelect1').appendChild()
+        },
+        error: function (error) {
+          console.log('Error ' + error)
+          JSON.stringify(error)
+        }
+      })
+    })
+  </script>
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

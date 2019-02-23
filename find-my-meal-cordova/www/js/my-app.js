@@ -55,22 +55,22 @@ function createContentPage() {
     return;
 }
 
-var test = function () {
-    //    var formData = myApp.form.convertToData('#my-form');
-    var formJSON = myApp.formToJSON("#my-form");
-    //   alert(JSON.stringify(formData));  
+// var test = function () {
+//     //    var formData = myApp.form.convertToData('#my-form');
+//     var formJSON = myApp.formToJSON("#my-form");
+//     //   alert(JSON.stringify(formData));  
 
-    requestData(formJSON);
-}
+//     requestData(formJSON);
+// }
 
-var requestData = function (prodJson) {
-   var app = new Framework7({ /*...*/ });
+// var requestData = function (prodJson) {
+//    var app = new Framework7({ /*...*/ });
 
-    myApp.request.get('https://soundcloud.com/oembed?url=http%3A//soundcloud.com/forss/flickermood&format=js&callback=?', function (data) {
-    console.log(data);
-    });
+//     myApp.request.get('https://soundcloud.com/oembed?url=http%3A//soundcloud.com/forss/flickermood&format=js&callback=?', function (data) {
+//     console.log(data);
+//     });
 
-}
+// }
 
 
 

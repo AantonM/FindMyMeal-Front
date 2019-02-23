@@ -18,7 +18,7 @@
   <script>
     $(function(){
       $('#btnSearch').click(function () {
-      const UrlGetIngr = "http://10.80.19.142:8080/request/recipe/byId?id=" + $('#exampleFormControlSelect1').children('option:selected').val();
+      const UrlGetIngr = "http://10.80.19.142:8080/request/recipe/byId?id=" + $('#selectRecipe').children('option:selected').val();
         console.log(UrlGetIngr);
         $.ajax({
           url: UrlGetIngr,

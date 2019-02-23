@@ -64,7 +64,7 @@
             var option = document.createElement("option");
             option.setAttribute('value', recipe.id);
             option.appendChild(document.createTextNode(recipe.name));
-            document.getElementById('exampleFormControlSelect1').appendChild(option);
+            document.getElementById('selectRecipe').appendChild(option);
           });
         },
         error: function (error) {
@@ -73,9 +73,34 @@
         }
       })
     };
-    
+
+    function loadStore () {
+        const data = {}
+        $.ajax({
+            url: "http://10.80.19.142:8080/request/store/all",
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded"
+            },
+            type: "GET",
+            success: function (result) {
+                console.log(result);
+                result.forEach(store => {
+                    var option = document.createElement("option");
+                    option.setAttribute('value', store.storeCode);
+                    option.appendChild(document.createTextNode(store.storeCode));
+                    document.getElementById('selectStore').appendChild(option);
+                });
+            },
+            error: function (error) {
+                console.log('Error ' + error)
+                JSON.stringify(error)
+            }
+        })
+    };
+
     function load() {
       loadRecipes();
+      loadStore();
     }
   </script>
 
@@ -118,8 +143,14 @@
         <p class="lead">Select a product and we will show you where are the ingridiants!</p>
 
         <div class="form-group">
-          <label for="exampleFormControlSelect1">Example select</label>
-          <select class="form-control" id="exampleFormControlSelect1">
+          <label for="selectStore">Select Store</label>
+          <select class="form-control" id="selectStore">
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="selectRecipe">Select Recipe</label>
+          <select class="form-control" id="selectRecipe">
           </select>
         </div>
 

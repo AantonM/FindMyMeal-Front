@@ -13,9 +13,62 @@
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  <script>
+    const UrlGetIngr = "http://10.80.19.142:8080/request/recipe/all"
+    $('.btn').click(function () {
+      const data = {}
+      $.ajax({
+        url: UrlGetIngr,
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded",
+          "Access-Control-Allow-Origin": "http://10.80.19.142:8080"
+        },
+        type: "GET",
+        success: function (result) {
+        },
+        error: function (error) {
+          console.log('Error ' + error)
+          JSON.stringify(error)
+        }
+      })
+    })
+  </script>
+
+  <script>
+    function loadRecipes () {
+      const data = {}
+      $.ajax({
+        url: "http://10.80.19.142:8080/request/recipe/all",
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded"
+        },
+        type: "GET",
+        success: function (result) {
+          console.log(result);
+          result.forEach(recipe => {
+            var option = document.createElement("option");
+            option.setAttribute('value', recipe.id);
+            option.appendChild(document.createTextNode(recipe.name));
+            document.getElementById('exampleFormControlSelect1').appendChild(option);
+          });
+        },
+        error: function (error) {
+          console.log('Error ' + error)
+          JSON.stringify(error)
+        }
+      })
+    };
+    
+    function load() {
+      loadRecipes();
+    }
+  </script>
+
 </head>
 
-<body>
+<body onload="load()">
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -57,13 +110,6 @@
         <div class="form-group">
           <label for="exampleFormControlSelect1">Example select</label>
           <select class="form-control" id="exampleFormControlSelect1">
-            <option value="0"></option>
-            <option value="1">Burger</option>
-            <option value="2">Sandwih</option>
-            <option value="3">Pasta</option>
-            <option value="4">Meal</option>
-            <option value="4">Meal</option>
-            <option value="4">Meal</option>
           </select>
         </div>
 
@@ -87,52 +133,7 @@
       </div>
     </div>
   </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-  <script>
-    const UrlGetIngr = "http://10.80.19.142:8080/request/store/all"
-    $('.btn').click(function () {
-      const data = {}
-      $.ajax({
-        url: UrlGetIngr,
-        headers: {
-          "Content-type": "application/x-www-form-urlencoded",
-          "Access-Control-Allow-Origin": "http://10.80.19.142:8080"
-        },
-        type: "GET",
-        success: function (result) {
-          document.getElementById("tableBody").appendChild("<td></td");
-          console.log(result)
-        },
-        error: function (error) {
-          console.log('Error ' + error)
-          JSON.stringify(error)
-        }
-      })
-    })
-  </script>
-
-  <script>
-    const UrlGetProducts = "http://10.80.19.142:8080/request/product/all"
-    $('.btn').click(function () {
-      const data = {}
-      $.ajax({
-        url: UrlGetProducts,
-        headers: {
-          "Content-type": "application/x-www-form-urlencoded",
-          "Access-Control-Allow-Origin": "http://10.80.19.142:8080"
-        },
-        type: "GET",
-        success: function (result) {
-          document.getElementById('exampleFormControlSelect1').appendChild()
-        },
-        error: function (error) {
-          console.log('Error ' + error)
-          JSON.stringify(error)
-        }
-      })
-    })
-  </script>
 
 
   <!-- Bootstrap core JavaScript -->

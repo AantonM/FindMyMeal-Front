@@ -17,11 +17,12 @@
 
   <script>
     $(function(){
-      $('#btnSearch').click(function () {
-      const UrlGetIngr = "http://10.80.19.142:8080/request/recipe/byId?id=" + $('#selectRecipe').children('option:selected').val();
-        console.log(UrlGetIngr);
+      $('#selectRecipe').on('change', function () {
+      clearProductList();
+      const url = "http://10.80.19.142:8080/request/recipe/byId?id=" + $('#selectRecipe').children('option:selected').val();
+        console.log(url);
         $.ajax({
-          url: UrlGetIngr,
+          url: url,
           headers: {
             "Content-type": "application/x-www-form-urlencoded"
           },
@@ -30,12 +31,30 @@
             console.log(result);
             result.products.forEach(product => 
             {
+              var body = document.getElementById("tableBody");
               var row = document.createElement("tr");
-              var col = document.createElement("td");
-              var txt = document.createTextNode(product.id);
+              var colId = document.createElement("td");
+              var colSku = document.createElement("td");
+              var colAisle = document.createElement("td");
+              var colBay = document.createElement("td");
+              var colShelf = document.createElement("td");
+              var name = document.createTextNode(product.name);
+              var sku = document.createTextNode(product.sku);
+              var aisle = document.createTextNode(product.location.aisle);
+              var bay = document.createTextNode(product.location.bay);
+              var shelf = document.createTextNode(product.location.shelf);
 
-              col.appendChild(txt);
-              row.appendChild(col);
+              colId.appendChild(name);
+              row.appendChild(colId);
+              colSku.appendChild(sku);
+              row.appendChild(colSku);
+              colAisle.appendChild(aisle);
+              row.appendChild(colAisle);
+              colBay.appendChild(bay);
+              row.appendChild(colBay);
+              colShelf.appendChild(shelf);
+              row.appendChild(colShelf);
+
               document.getElementById("tableBody").appendChild(row);
             });
           },
@@ -44,27 +63,40 @@
             JSON.stringify(error)
           }
         })
+      });
+      
+      $('#selectStore').on('change', function () {
+        loadRecipes($('#selectStore').children('option:selected').val());
       })
     });
+    
+    function clearProductList() {
+      document.getElementById("tableBody").innerHTML = "";
+    }
 
-  </script>
-
-  <script>
-    function loadRecipes () {
+    function loadRecipes (storeCode) {
       const data = {}
+      clearProductList();
       $.ajax({
-        url: "http://10.80.19.142:8080/request/recipe/all?storeCode=2571",
+        url: "http://10.80.19.142:8080/request/recipe/all?storeCode=" + storeCode,
         headers: {
           "Content-type": "application/x-www-form-urlencoded"
         },
         type: "GET",
         success: function (result) {
           console.log(result);
+          var selectRecipe = document.getElementById('selectRecipe');
+          var defaultOption = document.createElement("option");
+          defaultOption.disabled = true;
+          defaultOption.selected = true;
+          defaultOption.innerHTML = " -- select an option -- ";
+          selectRecipe.innerHTML = "";
+          selectRecipe.appendChild(defaultOption);
           result.forEach(recipe => {
             var option = document.createElement("option");
             option.setAttribute('value', recipe.id);
             option.appendChild(document.createTextNode(recipe.name));
-            document.getElementById('selectRecipe').appendChild(option);
+            selectRecipe.appendChild(option);
           });
         },
         error: function (error) {
@@ -72,41 +104,38 @@
           JSON.stringify(error)
         }
       })
+      $('#selectedRecipe').trigger("change");
     };
 
-    function loadStore () {
-        const data = {}
-        $.ajax({
-            url: "http://10.80.19.142:8080/request/store/all",
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded"
-            },
-            type: "GET",
-            success: function (result) {
-                console.log(result);
-                result.forEach(store => {
-                    var option = document.createElement("option");
-                    option.setAttribute('value', store.storeCode);
-                    option.appendChild(document.createTextNode(store.storeCode));
-                    document.getElementById('selectStore').appendChild(option);
-                });
-            },
-            error: function (error) {
-                console.log('Error ' + error)
-                JSON.stringify(error)
-            }
-        })
-    };
-
-    function load() {
-      loadRecipes();
+function loadStore () {
+    const data = {}
+    $.ajax({
+        url: "http://10.80.19.142:8080/request/store/all",
+        headers: {
+            "Content-type": "application/x-www-form-urlencoded"
+        },
+        type: "GET",
+        success: function (result) {
+            console.log(result);
+            result.forEach(store => {
+                var option = document.createElement("option");
+                option.setAttribute('value', store.storeCode);
+                option.appendChild(document.createTextNode(store.storeCode));
+                document.getElementById('selectStore').appendChild(option);
+            });
+        },
+        error: function (error) {
+            console.log('Error ' + error)
+            JSON.stringify(error)
+        }
+    })
+};
       loadStore();
-    }
   </script>
 
 </head>
 
-<body onload="load()">
+<body >
 
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -140,29 +169,30 @@
     <div class="row">
       <div class="col-lg-12 text-center">
         <h1 class="mt-5">Find my meal</h1>
-        <p class="lead">Select a product and we will show you where are the ingridiants!</p>
+        <p class="lead">Select a product and we will show you where the ingredients are!</p>
 
         <div class="form-group">
           <label for="selectStore">Select Store</label>
           <select class="form-control" id="selectStore">
+              <option disabled selected value> -- select an option -- </option>
           </select>
         </div>
 
         <div class="form-group">
           <label for="selectRecipe">Select Recipe</label>
           <select class="form-control" id="selectRecipe">
+              <option disabled selected value> -- select an option -- </option>
           </select>
         </div>
 
-        <button id="btnSearch" class="btn btn-primary" type="submit">Search</button>
-
-        <table class="table">
+        <table class="table" style="margin-top: 100px">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+              <th scope="col">Name</th>
+              <th scope="col">Sku</th>
+              <th scope="col">Aisle</th>
+              <th scope="col">Bay</th>
+              <th scope="col">Shelf</th>
             </tr>
           </thead>
           <tbody id="tableBody">

@@ -38,13 +38,11 @@
               var colAisle = document.createElement("td");
               var colBay = document.createElement("td");
               var colShelf = document.createElement("td");
-              var colXCoords = document.createElement("td");
               var name = document.createTextNode(product.name);
               var sku = document.createTextNode(product.sku);
               var aisle = document.createTextNode(product.location.aisle);
               var bay = document.createTextNode(product.location.bay);
               var shelf = document.createTextNode(product.location.shelf);
-              var Coords = document.createTextNode(product.location.xCoord + ':' + product.location.yCoord);
 
               colId.appendChild(name);
               row.appendChild(colId);
@@ -56,8 +54,6 @@
               row.appendChild(colBay);
               colShelf.appendChild(shelf);
               row.appendChild(colShelf);
-              colXCoords.appendChild(Coords);
-              row.appendChild(colXCoords);
 
               document.getElementById("tableBody").appendChild(row);
             });
@@ -199,7 +195,6 @@ function loadStore () {
               <th scope="col">Aisle</th>
               <th scope="col">Bay</th>
               <th scope="col">Shelf</th>
-              <th scope="col">Coords</th>
             </tr>
           </thead>
           <tbody id="tableBody">

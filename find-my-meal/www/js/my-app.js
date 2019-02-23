@@ -1,8 +1,15 @@
-// Initialize your app
 var myApp = new Framework7();
 
-// Export selectors engine
 var $$ = Dom7;
+
+// var apiURL = 'http://api.myapp.com';
+// var username = "username";
+// var passwork = "password";
+
+// DOM events for About popup
+$$('.popup-about').on('popup:open', function (e, popup) {
+    console.log('About popup open');
+});
 
 // Add view
 var mainView = myApp.addView('.view-main', {
@@ -16,12 +23,13 @@ myApp.onPageInit('about', function (page) {
     $$('.create-page').on('click', function () {
         createContentPage();
     });
+
 });
 
 // Generate dynamic page
 var dynamicPageIndex = 0;
 function createContentPage() {
-	mainView.router.loadContent(
+    mainView.router.loadContent(
         '<!-- Top Navbar-->' +
         '<div class="navbar">' +
         '  <div class="navbar-inner">' +
@@ -44,5 +52,26 @@ function createContentPage() {
         '  </div>' +
         '</div>'
     );
-	return;
+    return;
 }
+
+var test = function () {
+    //    var formData = myApp.form.convertToData('#my-form');
+    var formJSON = myApp.formToJSON("#my-form");
+    //   alert(JSON.stringify(formData));  
+
+    requestData(formJSON);
+}
+
+var requestData = function (prodJson) {
+   var app = new Framework7({ /*...*/ });
+
+    myApp.request.get('https://soundcloud.com/oembed?url=http%3A//soundcloud.com/forss/flickermood&format=js&callback=?', function (data) {
+    console.log(data);
+    });
+
+}
+
+
+
+
